@@ -1,10 +1,10 @@
 import 'dart:async';
 
 class LoginBloc {
-  final _emailController = StreamController
-      .broadcast(); // broadcast para que multiples instancias puedan escuchar sus cambios
-  final _passwordController = StreamController
-      .broadcast(); // broadcast para que multiples instancias puedan escuchar sus cambios
+  final _emailController = StreamController<
+      String>.broadcast(); // broadcast para que multiples instancias puedan escuchar sus cambios
+  final _passwordController = StreamController<
+      String>.broadcast(); // broadcast para que multiples instancias puedan escuchar sus cambios
 
   // Recuperar los datos del Stream
   Stream<String> get emailStream => _emailController.stream;
