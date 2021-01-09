@@ -17,10 +17,13 @@ class LoginPage extends StatelessWidget {
       height: size.height * 0.4,
       width: double.infinity,
       decoration: BoxDecoration(
-          gradient: LinearGradient(colors: <Color>[
-        Color.fromRGBO(63, 63, 156, 1.0),
-        Color.fromRGBO(90, 70, 178, 1.0)
-      ])),
+        gradient: LinearGradient(
+          colors: <Color>[
+            Color.fromRGBO(63, 63, 156, 1.0),
+            Color.fromRGBO(90, 70, 178, 1.0)
+          ],
+        ),
+      ),
     );
 
     final circulo = Container(
