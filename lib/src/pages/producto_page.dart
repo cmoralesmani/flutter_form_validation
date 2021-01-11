@@ -20,7 +20,7 @@ class _ProductoPageState extends State<ProductoPage> {
 
   ProductoModel producto = new ProductoModel();
   bool _guardando = false;
-  File _foto;
+  File foto;
   final picker = ImagePicker();
 
   @override
@@ -119,7 +119,7 @@ class _ProductoPageState extends State<ProductoPage> {
     );
   }
 
-  _submit() {
+  _submit() async {
     if (!formKey.currentState.validate()) return;
 
     formKey.currentState.save();
@@ -127,6 +127,10 @@ class _ProductoPageState extends State<ProductoPage> {
     setState(() {
       _guardando = true;
     });
+
+    if (foto != null) {
+      producto.fotoUrl = await productoProvider.subirImagen(foto);
+    }
 
     if (producto.id == null) {
       productoProvider.crearProducto(producto);
@@ -152,11 +156,16 @@ class _ProductoPageState extends State<ProductoPage> {
 
   Widget _mostrarFoto() {
     if (producto.fotoUrl != null) {
-      return Container();
+      return FadeInImage(
+        image: NetworkImage(producto.fotoUrl),
+        placeholder: AssetImage('assets/jar-loading.gif'),
+        height: 300.0,
+        fit: BoxFit.contain,
+      );
     } else {
-      if (_foto != null) {
+      if (foto != null) {
         return Image.file(
-          _foto,
+          foto,
           fit: BoxFit.cover,
           height: 300.0,
         );
@@ -171,12 +180,11 @@ class _ProductoPageState extends State<ProductoPage> {
 
   _procesarImagen(ImageSource origen) async {
     final pickedFile = await picker.getImage(source: origen);
-
-    setState(() {
-      if (pickedFile != null) {
-        _foto = File(pickedFile.path);
-      }
-    });
+    if (pickedFile != null) {
+      foto = File(pickedFile.path);
+      producto.fotoUrl = null;
+    }
+    setState(() {});
   }
 
   void _tomarFoto() {
